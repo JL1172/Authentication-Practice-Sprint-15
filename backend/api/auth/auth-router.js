@@ -23,10 +23,11 @@ router.post("/register",validateRegisterBody,validateRegisterUniqueness,async(re
 router.post("/login",validateUsername,async(req,res,next)=> {
     try {
         const {username,password} = req.body; //eslint-disable-line
-        const user = req.user;
-        if (user && bcrypt.compareSync(password,user.user_password)) {
-            req.session.user = user;
-            res.json({data : req.user.user_id,message : `Welcome back ${user.user_username}`})
+        const foundUser = await UserData.findByUsername(username);
+        console.log(foundUser); 
+        if (foundUser && bcrypt.compareSync(password,foundUser.user_password)) {
+            req.session.user = foundUser;
+            res.json({data : req.user.user_id,message : `Welcome back ${foundUser.user_username}`})
         } else {
             next({status : 401, message : "incorrect username or password"})
         }
