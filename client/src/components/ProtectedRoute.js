@@ -13,7 +13,8 @@ export default function ProtectedRoute() {
         }).catch(err => {
             console.log(err)
         })
-    },[])
+    },[])//eslint-disable-line
+
     return (
         <div>
             {successMessage && <Alert severity="success">{successMessage}<span onClick ={(e)=>closeMessage(e)} id = "close">close</span></Alert>}

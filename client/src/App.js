@@ -21,7 +21,7 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage,setSuccessMessage]= useState("");
 
-  const [userId,setUserId] = useState(0); 
+  const [userId,setUserId] = useState(""); 
 
   const [spinnerOn, setSpinnerOn] = useState(false);
 
@@ -43,6 +43,7 @@ function App() {
     setSpinnerOn(true);
     axios.post("http://localhost:9000/api/auth/register", inputValues).then(res => {
       nav(`/protected/${res.data.data}`)
+      // nav("/protected")
       setUserId(res.data.data)
       setSpinnerOn(false);
       setSuccessMessage(res.data.message); 
@@ -66,6 +67,7 @@ function App() {
     axios.post("http://localhost:9000/api/auth/login", inputValues).then(res => {
       setUserId(res.data.data);
       nav(`/protected/${res.data.data}`)
+      // nav("/protected")
       setSpinnerOn(false);
       setSuccessMessage(res.data.message); 
       setInputValues({
@@ -110,6 +112,7 @@ function App() {
             <Tab style={style} label="Logout" onClick={() => nav("/logout")} />
             <Tab style={style} label="register" onClick={() => nav("/register")} />
             <Tab style={style} label="protected" onClick={() => nav(`/protected/${userId}`)} />
+            {/* <Tab style={style} label="protected" onClick={() => nav(`/protected`)} /> */}
           </Tabs>
         </Box>
       </div>

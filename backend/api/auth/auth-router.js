@@ -47,6 +47,8 @@ router.get("/logout",async(req,res,next)=> {
                     res.json({message : `Goodbye ${user_username}`})
                 }
             })
+        } else {
+            res.json({message : "who are you?"})
         }
     } catch (err) {next(err)}
 })
