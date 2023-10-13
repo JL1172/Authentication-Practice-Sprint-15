@@ -11,7 +11,8 @@ const schema = yup.object().shape({
 module.exports = {
     validateRegisterBody,
     validateRegisterUniqueness,
-    validateUsername
+    validateUsername,
+    protect
 }
 
 async function validateRegisterBody(req,res,next) {
@@ -41,12 +42,20 @@ async function validateUsername(req,res,next) {
         const {username} = req.body;
         const isUnique = await db("users").where({user_username : username}).first();
         if (!isUnique) {
-            next({status : 400, message : "user does not exist"})
+            next({status : 401, message : "incorrect username or password"})
         } else {
             req.user = isUnique; 
             next();
         }
     } catch (err) {
         next(err)
+    }
+}
+
+async function protect(req,res,next) {
+    if (req.session.user) {
+        next();
+    } else {
+        next({status : 401, message : "must login before seeing this"})
     }
 }

@@ -26,7 +26,7 @@ router.post("/login",validateUsername,async(req,res,next)=> {
         const user = req.user;
         if (user && bcrypt.compareSync(password,user.user_password)) {
             req.session.user = user;
-            res.json({message : `Welcome back ${user.user_username}`})
+            res.json({data : req.user.user_id,message : `Welcome back ${user.user_username}`})
         } else {
             next({status : 401, message : "incorrect username or password"})
         }
@@ -37,7 +37,17 @@ router.post("/login",validateUsername,async(req,res,next)=> {
 
 router.get("/logout",async(req,res,next)=> {
     try {
-        console.log("logout working")
+        if (req.session.user) {
+            const {username} = req.body;
+            req.session.destroy(err=> {
+                if (err) {
+                    res.json({message : "Goodluck leaving"})
+                } else {
+                    res.set('Set-Cookie', "monkey=; SameSite=Strict; Path=/; Expires=Thu, 01 Jan 1970 00:00:00")
+                    res.json({message : `Goodbye ${username}`})
+                }
+            })
+        }
     } catch (err) {next(err)}
 })
 
