@@ -38,7 +38,6 @@ server.use(session({
       httpOnly : false, //means js on page can read the cookie 
     },
     rolling : true,
-    sameSite : "strict",
     resave : false,
     saveUninitialized : false, //this means only cookie for approved cookies
     store : new Store({

@@ -43,7 +43,7 @@ router.get("/logout",async(req,res,next)=> {
                 if (err) {
                     res.json({message : "Goodluck leaving"})
                 } else {
-                    res.set('Set-Cookie', "session_cookie=; SameSite=strict; Path=/; Expires=Thu, 01 Jan 1970 00:00:00")
+                    res.set('Set-Cookie', "session_cookie=; SameSite=Strict; Path=/; Expires=Thu, 01 Jan 1970 00:00:00")
                     res.json({message : `Goodbye ${user_username}`})
                 }
             })

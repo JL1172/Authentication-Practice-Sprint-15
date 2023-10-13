@@ -1,13 +1,13 @@
 const express = require("express");
 const {protect} = require("./user-middleware");
+const path = require("path");
 const UserData = require("./user-model");
-
 const router = express.Router();
 
 router.get("/",async(req,res,next)=> {
     try {
-        const data = await UserData.findAll();
-        res.status(200).json(data); 
+        // const data = await UserData.findAll();
+        res.status(200).sendFile(path.join(__dirname,"./protected.html"))
     } catch (err) {next(err)}
 })
 
