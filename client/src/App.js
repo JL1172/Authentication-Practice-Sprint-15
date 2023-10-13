@@ -80,6 +80,7 @@ function App() {
       setSpinnerOn(false)
     })
   }
+
   //handlers for login
   //globalhander
   const closeMessage = e => {
@@ -99,11 +100,11 @@ function App() {
   }
   //globalhander
   const moveProc = (e) => {
-    axios.get(`http://localhost:9000/api/protected/${userId}`).then(res=> {
+    axios.get(`http://localhost:9000/api/protected`,{ withCredentials: true }).then(res=> {
             console.log(res)
             nav(`/protected/${userId}`)
         }).catch(err => {
-            console.log(err)
+            console.error(err)
         })
   }
   return (

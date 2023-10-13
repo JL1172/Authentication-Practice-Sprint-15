@@ -4,9 +4,9 @@ const UserData = require("./user-model");
 
 const router = express.Router();
 
-router.get("/:id",protect,async(req,res,next)=> {
+router.get("/",protect,async(req,res,next)=> {
     try {
-        const data = await UserData.access(req.params.id);
+        const data = await UserData.findAll();
         res.status(200).json(data.protected_information); 
     } catch (err) {next(err)}
 })

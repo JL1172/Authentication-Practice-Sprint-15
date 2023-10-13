@@ -3,7 +3,8 @@ const db = require('../../data/db-config');
 module.exports = {
     add,
     access,
-    findByUsername
+    findByUsername,
+    findAll
 }
 
 async function add(newUser) {
@@ -23,4 +24,8 @@ async function findByUsername(username) {
     } else {
         return isUnique;
     }
+}
+
+async function findAll() {
+    return await db("protected"); 
 }

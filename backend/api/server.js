@@ -1,7 +1,7 @@
 const express = require("express");
 //bringing in middleware
 const morgan = require("morgan");
-const helmet = require("helmet");
+// const helmet = require("helmet");
 const cors = require("cors")
 
 const session = require("express-session")
@@ -22,8 +22,12 @@ const server = express();
 //global middleware
 server.use(express.json());
 server.use(morgan("dev"))
-server.use(helmet());
-server.use(cors());
+server.use(cors({
+  origin : "http://localhost:3000",
+  credentials: true,
+}));
+// server.use(helmet());
+
 
 
 server.use(session({
@@ -31,17 +35,19 @@ server.use(session({
     secret : "keep it secret session",
     cookie : {
       maxAge : 1000 * 60 * 60,
-      sameSite : "none", 
       secure : false,//if true only works over https
-      httpOnly : true, //means js on page can read the cookie 
+      httpOnly : false, //means js on page can read the cookie 
+      domain : "localhost",
+      path : "/"
     },
     rolling : true,
+    sameSite : "none",
     resave : false,
-    saveUninitialized : true, //this means only cookie for approved cookies
+    saveUninitialized : false, //this means only cookie for approved cookies
     store : new Store({
       knex : require("../data/db-config.js"),
-      tablename : "user_sessions",
-      sidfieldname : "sid",
+      tablename : "sessions_users",
+      sidfieldname : "user_sid",
       createtable : true,
       clearInterval : 1000 * 60 * 60,
     })
