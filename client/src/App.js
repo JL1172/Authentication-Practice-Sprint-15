@@ -21,6 +21,8 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage,setSuccessMessage]= useState("");
 
+  const [html,setHtml] = useState(''); 
+
   const [userId,setUserId] = useState(""); 
 
   const [spinnerOn, setSpinnerOn] = useState(false);
@@ -101,14 +103,15 @@ function App() {
   //globalhander
   const moveProc = (e) => {
     axios.get(`http://localhost:9000/api/protected`).then(res=> {
-            console.log(res)
+      console.log(res.data)
+      setHtml(res.data)
             nav(`/protected`)
         }).catch(err => {
             console.error(err)
         })
   }
   return (
-    <UserContext.Provider value = {{errorMessage,spinnerOn,inputValues,change,submit,submit2,successMessage,closeMessage,userId,logoutAll}}>
+    <UserContext.Provider value = {{errorMessage,spinnerOn,inputValues,change,submit,submit2,successMessage,closeMessage,userId,logoutAll, html}}>
     <div className="App">
       <div id="headLinks">
         <Box sx={{ borderBottom: 1, borderColor: "rgb(15,25,36)" }}>
