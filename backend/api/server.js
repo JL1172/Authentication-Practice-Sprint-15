@@ -2,6 +2,7 @@ const express = require("express");
 //bringing in middleware
 const morgan = require("morgan");
 const helmet = require("helmet");
+const cors = require("cors")
 //bringing in middleware
 
 
@@ -18,6 +19,7 @@ const server = express();
 server.use(express.json());
 server.use(morgan("dev"))
 server.use(helmet());
+server.use(cors());
 //global middleware
 
 
