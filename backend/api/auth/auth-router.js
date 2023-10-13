@@ -1,7 +1,7 @@
 const express = require("express");
 const UserData = require("../users/user-model")
 const bcrypt = require('bcryptjs')
-const {validateRegisterBody,validateRegisterUniqueness,validateUsername} = require("./auth-middleware"); 
+const {validateRegisterBody,validateRegisterUniqueness} = require("./auth-middleware"); 
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/register",validateRegisterBody,validateRegisterUniqueness,async(req,res,next)=> {
     try {
        const {username,password} = req.body;
-       const hash = bcrypt.hashSync(password,16);
+       const hash = bcrypt.hashSync(password,8);
        const newUser = {
         user_username : username,
         user_password : hash,
@@ -20,14 +20,13 @@ router.post("/register",validateRegisterBody,validateRegisterUniqueness,async(re
 })
 
 
-router.post("/login",validateUsername,async(req,res,next)=> {
+router.post("/login",async(req,res,next)=> {
     try {
         const {username,password} = req.body; //eslint-disable-line
         const foundUser = await UserData.findByUsername(username);
-        console.log(foundUser); 
         if (foundUser && bcrypt.compareSync(password,foundUser.user_password)) {
-            req.session.user = foundUser;
-            res.json({data : req.user.user_id,message : `Welcome back ${foundUser.user_username}`})
+            req.session.user = foundUser
+            res.json({data : foundUser.user_id,message : `Welcome back ${foundUser.user_username}`})
         } else {
             next({status : 401, message : "incorrect username or password"})
         }
@@ -43,7 +42,7 @@ router.get("/logout",async(req,res,next)=> {
                 if (err) {
                     res.json({message : "Goodluck leaving"})
                 } else {
-                    res.set('Set-Cookie', "monkey=; SameSite=Strict; Path=/; Expires=Thu, 01 Jan 1970 00:00:00")
+                    res.set('Set-Cookie', "monkey=; SameSite=none; Path=/; Expires=Thu, 01 Jan 1970 00:00:00")
                     res.json({message : `Goodbye ${user_username}`})
                 }
             })

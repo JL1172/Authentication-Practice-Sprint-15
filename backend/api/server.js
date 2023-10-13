@@ -4,8 +4,8 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors")
 
-const session = require("express-session");
-const Store = require("connect-session-knex")(session); 
+const session = require("express-session")
+const Store = require('connect-session-knex')(session)
 //bringing in middleware
 
 
@@ -27,24 +27,26 @@ server.use(cors());
 
 
 server.use(session({
-    name : "monkey",
-    secret : "current secret for secret session",
+    name : "session_cookie",
+    secret : "keep it secret session",
     cookie : {
-        maxAge : 1000 * 60 * 60,
-        secure : false,
-        httpOnly : false,
+      maxAge : 1000 * 60 * 60,
+      sameSite : "none", 
+      secure : false,//if true only works over https
+      httpOnly : true, //means js on page can read the cookie 
     },
     rolling : true,
     resave : false,
-    saveUninitialized : false,
+    saveUninitialized : true, //this means only cookie for approved cookies
     store : new Store({
-        knex : require("../data/db-config"),
-        tablename : "sessions",
-        sidfieldname : "sid",
-        createtable : true,
-        clearInterval : 1000 * 60 * 60
+      knex : require("../data/db-config.js"),
+      tablename : "user_sessions",
+      sidfieldname : "sid",
+      createtable : true,
+      clearInterval : 1000 * 60 * 60,
     })
-}))
+  }))
+  
 //global middleware
 
 
@@ -55,7 +57,6 @@ server.use("/api/protected",ProtectedRoute)
 
 //global fail middleware
 server.use("*",(req,res,next)=> {
-
     next({status : 404, message : "not found"})
 })
 server.use((error,req,res,next)=> { //eslint-disable-line

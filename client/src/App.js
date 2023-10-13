@@ -98,6 +98,14 @@ function App() {
     })
   }
   //globalhander
+  const moveProc = (e) => {
+    axios.get(`http://localhost:9000/api/protected/${userId}`).then(res=> {
+            console.log(res)
+            nav(`/protected/${userId}`)
+        }).catch(err => {
+            console.log(err)
+        })
+  }
   return (
     <UserContext.Provider value = {{errorMessage,spinnerOn,inputValues,change,submit,submit2,successMessage,closeMessage,userId,logoutAll}}>
     <div className="App">
@@ -108,7 +116,7 @@ function App() {
             <Tab style={style} label="Login" onClick={() => nav("/login")} />
             <Tab style={style} label="Logout" onClick={() => nav("/logout")} />
             <Tab style={style} label="register" onClick={() => nav("/register")} />
-            <Tab style={style} label="protected" onClick={() => nav(`/protected/${userId}`)} />
+            <Tab style={style} label="protected" onClick={(e) => moveProc(e)} />
           </Tabs>
         </Box>
       </div>
