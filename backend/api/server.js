@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 //bringing in middleware
 const morgan = require("morgan");
 const helmet = require("helmet");
@@ -20,6 +21,7 @@ const server = express();
 //instantiate
 
 //global middleware
+server.use(express.static(path.join(__dirname, '../../build')))
 server.use(express.json());
 server.use(morgan("dev"))
 server.use(cors());
@@ -36,7 +38,7 @@ server.use(session({
       httpOnly : false, //means js on page can read the cookie 
     },
     rolling : true,
-    sameSite : "none",
+    sameSite : "strict",
     resave : false,
     saveUninitialized : false, //this means only cookie for approved cookies
     store : new Store({
@@ -55,6 +57,11 @@ server.use(session({
 server.use("/api/auth",AuthRouter)
 server.use("/api/protected",ProtectedRoute)
 //routes
+
+server.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../build'))
+})
+
 
 //global fail middleware
 server.use("*",(req,res,next)=> {

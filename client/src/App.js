@@ -64,7 +64,7 @@ function App() {
     setSpinnerOn(true);
     axios.post("http://localhost:9000/api/auth/login", inputValues).then(res => {
       setUserId(res.data.data);
-      nav(`/protected/${res.data.data}`)
+      nav(`/protected`)
       setSpinnerOn(false);
       setSuccessMessage(res.data.message); 
       setInputValues({
@@ -102,7 +102,7 @@ function App() {
   const moveProc = (e) => {
     axios.get(`http://localhost:9000/api/protected`).then(res=> {
             console.log(res)
-            nav(`/protected/${userId}`)
+            nav(`/protected`)
         }).catch(err => {
             console.error(err)
         })
@@ -130,7 +130,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/protected/:id" element={<ProtectedRoute />} />
+        <Route path="/protected" element={<ProtectedRoute />} />
       </Routes>
     </div>
     </UserContext.Provider>

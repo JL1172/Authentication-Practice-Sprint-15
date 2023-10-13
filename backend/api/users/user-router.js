@@ -4,7 +4,7 @@ const UserData = require("./user-model");
 
 const router = express.Router();
 
-router.get("/",protect,async(req,res,next)=> {
+router.get("/",async(req,res,next)=> {
     try {
         const data = await UserData.findAll();
         res.status(200).json(data); 

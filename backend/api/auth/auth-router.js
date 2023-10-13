@@ -38,11 +38,12 @@ router.get("/logout",async(req,res,next)=> {
     try {
         if (req.session.user) {
             const {user_username} = req.session.user;
+            console.log(req.session)
             req.session.destroy(err=> {
                 if (err) {
                     res.json({message : "Goodluck leaving"})
                 } else {
-                    res.set('Set-Cookie', "monkey=; SameSite=none; Path=/; Expires=Thu, 01 Jan 1970 00:00:00")
+                    res.set('Set-Cookie', "session_cookie=; SameSite=strict; Path=/; Expires=Thu, 01 Jan 1970 00:00:00")
                     res.json({message : `Goodbye ${user_username}`})
                 }
             })

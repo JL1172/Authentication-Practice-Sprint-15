@@ -17,5 +17,15 @@ form {
     width :22rem;
     border-radius : 1rem;
     background-color : rgb(15,25,36);
+    label {
+        color : rgb(25,118,210);
+    }
+    input {
+        color : white;
+        outline : 1px solid rgb(25,118,210);
+        &:focus {
+            outline : none;
+        }
+    }
 }
 `
