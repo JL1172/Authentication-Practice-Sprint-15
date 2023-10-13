@@ -4,6 +4,12 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 //bringing in middleware
 
+
+//bringin in routes
+const AuthRouter = require("./auth/auth-router");
+//bringin in routes
+
+
 //instantiate
 const server = express();
 //instantiate
@@ -14,6 +20,10 @@ server.use(morgan("dev"))
 server.use(helmet());
 //global middleware
 
+
+//routes
+server.use("/api/auth",AuthRouter)
+//routes
 
 //global fail middleware
 server.use("*",(req,res,next)=> {
