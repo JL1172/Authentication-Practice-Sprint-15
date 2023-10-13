@@ -15,7 +15,7 @@ router.post("/register",validateRegisterBody,validateRegisterUniqueness,async(re
         user_password : hash,
        }
        const result = await UserData.add(newUser); //eslint-disable-line
-       res.status(201).json({message : `Welcome ${username}`})
+       res.status(201).json({data : result.user_id ,message : `Welcome ${username}`})
     } catch (err) {next(err)}
 })
 
@@ -38,13 +38,13 @@ router.post("/login",validateUsername,async(req,res,next)=> {
 router.get("/logout",async(req,res,next)=> {
     try {
         if (req.session.user) {
-            const {username} = req.body;
+            const {user_username} = req.session.user;
             req.session.destroy(err=> {
                 if (err) {
                     res.json({message : "Goodluck leaving"})
                 } else {
                     res.set('Set-Cookie', "monkey=; SameSite=Strict; Path=/; Expires=Thu, 01 Jan 1970 00:00:00")
-                    res.json({message : `Goodbye ${username}`})
+                    res.json({message : `Goodbye ${user_username}`})
                 }
             })
         }

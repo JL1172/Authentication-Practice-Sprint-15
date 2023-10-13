@@ -16,11 +16,11 @@ export default function Login(props) {
         <StyledForm id="form">
             {spinnerOn ?
                 <Loading /> :
-                <form onSubmit={submit2}>
+                <form onSubmit={(e)=>e.preventDefault()}>
                     <h1 style={style}>Login</h1>
                     <TextField name="username" value={inputValues.username} onChange={change} label="Username" />
                     <TextField name="password" value={inputValues.password} onChange={change} label="Password" />
-                    <Button variant="contained">Submit</Button>
+                    <Button variant="contained" onClick={submit2}>Submit</Button>
                     {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
                 </form>
             }

@@ -21,6 +21,8 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage,setSuccessMessage]= useState("");
 
+  const [userId,setUserId] = useState(0); 
+
   const [spinnerOn, setSpinnerOn] = useState(false);
 
   const [inputValues, setInputValues] = useState({
@@ -40,7 +42,8 @@ function App() {
     setSuccessMessage(""); 
     setSpinnerOn(true);
     axios.post("http://localhost:9000/api/auth/register", inputValues).then(res => {
-      nav("/protected")
+      nav(`/protected/${res.data.data}`)
+      setUserId(res.data.data)
       setSpinnerOn(false);
       setSuccessMessage(res.data.message); 
 
@@ -61,7 +64,8 @@ function App() {
     setSuccessMessage(""); 
     setSpinnerOn(true);
     axios.post("http://localhost:9000/api/auth/login", inputValues).then(res => {
-      nav("/protected")
+      setUserId(res.data.data);
+      nav(`/protected/${res.data.data}`)
       setSpinnerOn(false);
       setSuccessMessage(res.data.message); 
       setInputValues({
@@ -83,9 +87,20 @@ function App() {
     e.preventDefault();
     setSuccessMessage("");
   }
+
+  const logoutAll = () => {
+    axios.get("http://localhost:9000/api/auth/logout").then(res=> {
+      nav("/"); 
+    }).catch(err => console.log(err))
+    .finally(()=>{
+      setUserId("")
+      setErrorMessage("")
+      setSuccessMessage(""); 
+    })
+  }
   //globalhander
   return (
-    <UserContext.Provider value = {{errorMessage,spinnerOn,inputValues,change,submit,submit2,successMessage,closeMessage}}>
+    <UserContext.Provider value = {{errorMessage,spinnerOn,inputValues,change,submit,submit2,successMessage,closeMessage,userId,logoutAll}}>
     <div className="App">
       <div id="headLinks">
         <Box sx={{ borderBottom: 1, borderColor: "rgb(15,25,36)" }}>
@@ -94,7 +109,7 @@ function App() {
             <Tab style={style} label="Login" onClick={() => nav("/login")} />
             <Tab style={style} label="Logout" onClick={() => nav("/logout")} />
             <Tab style={style} label="register" onClick={() => nav("/register")} />
-            <Tab style={style} label="protected" onClick={() => nav("/protected")} />
+            <Tab style={style} label="protected" onClick={() => nav(`/protected/${userId}`)} />
           </Tabs>
         </Box>
       </div>
@@ -107,7 +122,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/protected" element={<ProtectedRoute />} />
+        <Route path="/protected/:id" element={<ProtectedRoute />} />
       </Routes>
     </div>
     </UserContext.Provider>

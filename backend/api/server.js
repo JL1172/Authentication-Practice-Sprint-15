@@ -11,6 +11,7 @@ const Store = require("connect-session-knex")(session);
 
 //bringin in routes
 const AuthRouter = require("./auth/auth-router");
+const ProtectedRoute = require("./users/user-router");
 //bringin in routes
 
 
@@ -48,6 +49,7 @@ server.use(session({
 
 //routes
 server.use("/api/auth",AuthRouter)
+server.use("/api/protected",ProtectedRoute)
 //routes
 
 //global fail middleware
