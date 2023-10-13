@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/register",validateRegisterBody,validateRegisterUniqueness,async(req,res,next)=> {
     try {
        const {username,password} = req.body;
-       const hash = bcrypt.hashSync(password,8);
+       const hash = bcrypt.hashSync(password,16);
        const newUser = {
         user_username : username,
         user_password : hash,
