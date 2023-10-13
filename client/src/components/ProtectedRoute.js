@@ -7,6 +7,7 @@ export default function ProtectedRoute() {
     return (
         <div>
             {successMessage && <Alert severity="success">{successMessage}<span onClick ={(e)=>closeMessage(e)} id = "close">close</span></Alert>}
+            <h1>{html[0].protected_information}</h1>
         </div>
     )
 }
