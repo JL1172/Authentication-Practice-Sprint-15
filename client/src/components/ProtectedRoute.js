@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 export default function ProtectedRoute() {
-    const { successMessage,closeMessage, user_id } = useContext(UserContext);
+    const { successMessage,closeMessage } = useContext(UserContext);
     const {id} = useParams();
     useEffect(()=> {
         axios.get(`http://localhost:9000/api/protected/${id}`).then(res=> {
