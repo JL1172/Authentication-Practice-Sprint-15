@@ -1,7 +1,7 @@
 const express = require("express");
 //bringing in middleware
 const morgan = require("morgan");
-// const helmet = require("helmet");
+const helmet = require("helmet");
 const cors = require("cors")
 
 const session = require("express-session")
@@ -22,11 +22,8 @@ const server = express();
 //global middleware
 server.use(express.json());
 server.use(morgan("dev"))
-server.use(cors({
-  origin : "http://localhost:3000",
-  credentials: true,
-}));
-// server.use(helmet());
+server.use(cors());
+server.use(helmet());
 
 
 
@@ -37,8 +34,6 @@ server.use(session({
       maxAge : 1000 * 60 * 60,
       secure : false,//if true only works over https
       httpOnly : false, //means js on page can read the cookie 
-      domain : "localhost",
-      path : "/"
     },
     rolling : true,
     sameSite : "none",

@@ -8,7 +8,7 @@ export default function ProtectedRoute() {
     const { successMessage,closeMessage } = useContext(UserContext);
 
     useEffect(()=> {
-        axios.get(`http://localhost:9000/api/protected`, {withCredentials : true}).then(res=> {
+        axios.get(`http://localhost:9000/api/protected`).then(res=> {
             console.log(res)
         }).catch(err => {
             console.log(err)

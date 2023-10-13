@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/",protect,async(req,res,next)=> {
     try {
         const data = await UserData.findAll();
-        res.status(200).json(data.protected_information); 
+        res.status(200).json(data); 
     } catch (err) {next(err)}
 })
 
