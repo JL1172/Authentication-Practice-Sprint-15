@@ -4,11 +4,10 @@ const path = require("path");
 const UserData = require("./user-model");
 const router = express.Router();
 
-router.get("/",async(req,res,next)=> {
+router.get("/",protect,async(req,res,next)=> {
     try {
-        const data = await UserData.findAll();
+        const data = await UserData.findAll();//eslint-disable-line
         res.status(200).sendFile(path.join(__dirname,"./protected.html"))
-        res.json(data); 
     } catch (err) {next(err)}
 })
 
