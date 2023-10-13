@@ -16,6 +16,7 @@
     "express-session": "^1.17.3",
     "knex": "^3.0.1",
     "morgan": "^1.10.0",
+    "node": "^20.7.0",
     "sqlite3": "^5.1.6"
   },
   "devDependencies": {
