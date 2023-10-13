@@ -11,7 +11,7 @@ exports.up = async function(knex) {
   })
   .createTable("protected",table=> {
     table.increments("protected_id")
-    table.string("protected_information").notNullable()
+    table.string("protected_information")
     table.integer("user_id")
     .unsigned()
     .notNullable()
