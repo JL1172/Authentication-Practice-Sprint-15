@@ -12,3 +12,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#close {
+  margin-left: 4rem;
+  color : royalblue;
+  text-decoration: underline;
+  cursor: pointer;
+}

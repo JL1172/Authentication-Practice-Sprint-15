@@ -6,8 +6,8 @@ export default function Loading() {
  return (
     <StyledForm>
     <LineWave
-  height="100"
-  width="100"
+  height="300"
+  width="300"
   color="royalblue"
   ariaLabel="line-wave"
   wrapperStyle={{}}
