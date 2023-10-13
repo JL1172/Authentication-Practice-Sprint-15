@@ -30,10 +30,9 @@ router.post("/login",validateUsername,async(req,res,next)=> {
         } else {
             next({status : 401, message : "incorrect username or password"})
         }
-      
+        
     } catch (err) {next(err)}
 })
-
 
 router.get("/logout",async(req,res,next)=> {
     try {

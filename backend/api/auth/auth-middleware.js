@@ -12,7 +12,6 @@ module.exports = {
     validateRegisterBody,
     validateRegisterUniqueness,
     validateUsername,
-    protect
 }
 
 async function validateRegisterBody(req,res,next) {
@@ -49,14 +48,5 @@ async function validateUsername(req,res,next) {
         }
     } catch (err) {
         next(err)
-    }
-}
-
-async function protect(req,res,next) {
-    if (req.session.user) {
-        console.log(req.session.user)
-        next();
-    } else {
-        next({status : 401, message : "must login before seeing this"})
     }
 }

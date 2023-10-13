@@ -25,8 +25,9 @@ server.use(morgan("dev"))
 server.use(helmet());
 server.use(cors());
 
+
 server.use(session({
-    name : "current_session",
+    name : "monkey",
     secret : "current secret for secret session",
     cookie : {
         maxAge : 1000 * 60 * 60,
@@ -54,6 +55,7 @@ server.use("/api/protected",ProtectedRoute)
 
 //global fail middleware
 server.use("*",(req,res,next)=> {
+
     next({status : 404, message : "not found"})
 })
 server.use((error,req,res,next)=> { //eslint-disable-line
