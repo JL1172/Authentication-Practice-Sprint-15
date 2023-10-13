@@ -3,6 +3,9 @@ const express = require("express");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors")
+
+const session = require("express-session");
+const Store = require("connect-session-knex")(session); 
 //bringing in middleware
 
 
@@ -20,6 +23,26 @@ server.use(express.json());
 server.use(morgan("dev"))
 server.use(helmet());
 server.use(cors());
+
+server.use(session({
+    name : "current_session",
+    secret : "current secret for secret session",
+    cookie : {
+        maxAge : 1000 * 60 * 60,
+        secure : false,
+        httpOnly : false,
+    },
+    rolling : true,
+    resave : false,
+    saveUninitialized : false,
+    store : new Store({
+        knex : require("../data/db-config"),
+        tablename : "sessions",
+        sidfieldname : "sid",
+        createtable : true,
+        clearInterval : 1000 * 60 * 60
+    })
+}))
 //global middleware
 
 

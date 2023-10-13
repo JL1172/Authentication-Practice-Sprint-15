@@ -1,7 +1,7 @@
 const express = require("express");
 const UserData = require("../users/user-model")
 const bcrypt = require('bcryptjs')
-const {validateRegisterBody,validateRegisterUniqueness} = require("./auth-middleware"); 
+const {validateRegisterBody,validateRegisterUniqueness,validateUsername} = require("./auth-middleware"); 
 
 const router = express.Router();
 
@@ -20,9 +20,17 @@ router.post("/register",validateRegisterBody,validateRegisterUniqueness,async(re
 })
 
 
-router.post("/login",async(req,res,next)=> {
+router.post("/login",validateUsername,async(req,res,next)=> {
     try {
-        console.log("login working")
+        const {username,password} = req.body; //eslint-disable-line
+        const user = req.user;
+        if (user && bcrypt.compareSync(password,user.user_password)) {
+            req.session.user = user;
+            res.json({message : `Welcome back ${user.user_username}`})
+        } else {
+            next({status : 401, message : "incorrect username or password"})
+        }
+      
     } catch (err) {next(err)}
 })
 

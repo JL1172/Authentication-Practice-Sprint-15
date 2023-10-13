@@ -54,6 +54,30 @@ function App() {
     })
   }
   //handlers for register
+  //handlers for login
+  const submit2 = e => {
+    e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage(""); 
+    setSpinnerOn(true);
+    axios.post("http://localhost:9000/api/auth/login", inputValues).then(res => {
+      nav("/protected")
+      setSpinnerOn(false);
+      setSuccessMessage(res.data.message); 
+      setInputValues({
+        username : "",
+        password : "",
+      })
+    }).catch(err => {
+      if (err.response.data.message.error) {
+        setErrorMessage([err.response.data.message.error])
+      } else {
+        setErrorMessage([err.response.data.message])
+      }
+      setSpinnerOn(false)
+    })
+  }
+  //handlers for login
   //globalhander
   const closeMessage = e => {
     e.preventDefault();
@@ -61,7 +85,7 @@ function App() {
   }
   //globalhander
   return (
-    <UserContext.Provider value = {{errorMessage,spinnerOn,inputValues,change,submit,successMessage,closeMessage}}>
+    <UserContext.Provider value = {{errorMessage,spinnerOn,inputValues,change,submit,submit2,successMessage,closeMessage}}>
     <div className="App">
       <div id="headLinks">
         <Box sx={{ borderBottom: 1, borderColor: "rgb(15,25,36)" }}>
